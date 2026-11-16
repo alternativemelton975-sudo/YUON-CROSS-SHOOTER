@@ -1,4 +1,4 @@
-FROM mrc ://microsoft.com AS build
+FROM ://microsoft.com AS build
 WORKDIR /src
 
 COPY *.csproj ./ 
@@ -7,7 +7,7 @@ RUN dotnet restore
 COPY . .
 RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
 
-FROM mrc ://AS final
+FROM ://microsoft.com AS final
 WORKDIR /app
 COPY --from=build /app/publish
 EXPOSE 8080
