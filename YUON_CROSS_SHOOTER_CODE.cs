@@ -5,6 +5,10 @@ using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Bind to Render's dynamic PORT environment variable (defaults to 8080 locally)
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0:{port}");
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
@@ -31,6 +35,9 @@ app.Use(async (context, next) =>
 app.UseRouting();
 
 app.MapRazorPages();
+
+// Automatically redirect the main homepage (/) to your game
+app.MapGet("/", () => Results.Redirect("/cross-shooter"));
 
 app.MapGet("/cross-shooter", async context =>
 {
